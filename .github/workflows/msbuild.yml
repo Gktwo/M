@@ -29,22 +29,23 @@ jobs:
     - name: Build minty solution
       working-directory: ./
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
-        
+
     - name: Removing unused files
       shell: bash
       run: |
         rm -rf ./x64/Release/*.obj
         rm -rf ./x64/Release/*.pdb
       
-    - name: get time
+    - name: Install 7zip
+      run: choco install 7zip
+
+    - name: Compress files to 7z
       run: |
-        echo "DATE=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
-
-
+        $date = Get-Date -Format "yyyyMMddHHmmss"
+        7z a minty-release-$date.7z ./x64/Release/*
     - name: Upload minty latest artifact
       uses: actions/upload-artifact@v3.1.0
       with:
-        name: minty-release-${{ env.DATE }}
-        path: ./*
+        name: minty-release
+        path: ./minty-release-*.7z
         if-no-files-found: error
-
