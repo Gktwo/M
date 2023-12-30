@@ -48,5 +48,5 @@ jobs:
       uses: actions/upload-artifact@v3.1.0
       with:
         name: minty-release-$date
-        path: ./minty-release-$date.7z
+        path: ./minty-release-*.7z
         if-no-files-found: error
