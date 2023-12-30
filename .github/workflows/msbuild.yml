@@ -41,12 +41,13 @@ jobs:
 
     - name: Compress files to 7z
       run: |
-        $date = Get-Date -Format "yyyyMMddHHmmss"
-        7z a -t7z minty-release-$date.7z ./x64/Release/* -mx=9
+        echo "DATE=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+        7z a -t7z minty-release-$DATE.7z ./x64/Release/*.exe ./x64/Release/*.dll -mx=9
 
     - name: Upload minty latest artifact
       uses: actions/upload-artifact@v3.1.0
       with:
-        name: minty-release-$date
+        name: minty-release-${{ env.DATE }}
         path: ./minty-release-*.7z
         if-no-files-found: error
+
