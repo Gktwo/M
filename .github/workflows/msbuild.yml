@@ -42,11 +42,11 @@ jobs:
     - name: Compress files to 7z
       run: |
         $date = Get-Date -Format "yyyyMMddHHmmss"
-        7z a minty-release-$date.7z ./x64/Release/*
+        7z a -t7z minty-release-$date.7z ./x64/Release/* -mx=9
 
     - name: Upload minty latest artifact
       uses: actions/upload-artifact@v3.1.0
       with:
-        name: minty-release
-        path: ./minty-release-*.7z
+        name: minty-release-$date
+        path: ./minty-release-$date.7z
         if-no-files-found: error
