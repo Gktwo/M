@@ -36,18 +36,15 @@ jobs:
         rm -rf ./x64/Release/*.obj
         rm -rf ./x64/Release/*.pdb
       
-    - name: Install 7zip
-      run: choco install 7zip
-
-    - name: Compress files to 7z
+    - name: get time
       run: |
         echo "DATE=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
-        7z a -t7z minty-release-$DATE.7z ./x64/Release/*.exe ./x64/Release/*.dll -mx=9
+
 
     - name: Upload minty latest artifact
       uses: actions/upload-artifact@v3.1.0
       with:
         name: minty-release-${{ env.DATE }}
-        path: ./minty-release-*.7z
+        path: ./*
         if-no-files-found: error
 
